@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { Timestamp } from 'firebase/firestore';
-import { Leaderboard } from './leaderboard';
 import {
   ExecutionStatus,
   ProblemData,
@@ -16,6 +15,19 @@ export type PostData = {
    * Markdown string of the post content
    */
   body: string;
+  /**
+   * MDX string of the post content. Render this if this exists,
+   * assume it is safe (can only be updated by whitelisted users)
+   */
+  mdxBody?: string;
+  /**
+   * MDX source string
+   */
+  mdxSource?: string;
+  /**
+   * Whether or not to render the post content as mdx or markdown.
+   */
+  isMdx?: boolean;
   /**
    * no longer needed since posts can be more easily reordered (?)
    * @deprecated

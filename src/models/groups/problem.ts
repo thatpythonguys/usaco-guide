@@ -5,6 +5,19 @@ export interface ProblemData {
   postId: string;
   name: string;
   body: string;
+  /**
+   * MDX string of the problem content. Render this if this exists,
+   * assume it is safe (can only be updated by whitelisted users)
+   */
+  mdxBody?: string;
+  /**
+   * MDX source string
+   */
+  mdxSource?: string;
+  /**
+   * Whether or not to render the problem content as mdx or markdown.
+   */
+  isMdx?: boolean;
   source: string;
   points: number;
   difficulty: string;

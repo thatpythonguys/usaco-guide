@@ -10,6 +10,7 @@ import {
   updateDoc,
   writeBatch,
 } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useContext } from 'react';
 import UserDataContext from '../../context/UserDataContext/UserDataContext';
 import { PostData } from '../../models/groups/posts';
@@ -26,10 +27,24 @@ export function usePostActions(groupId: string) {
     useContext(UserDataContext);
 
   const updatePost = async (postId: string, updatedData: Partial<PostData>) => {
-    await updateDoc(
-      doc(getFirestore(firebaseApp), 'groups', groupId, 'posts', postId),
-      updatedData
-    );
+    if (updatedData.isMdx) {
+      const response = await httpsCallable(
+        getFunctions(firebaseApp),
+        'updateGroupMdxDocument'
+      )({
+        groupId,
+        postId,
+        updatedData
+      });
+      if (!response.data["success"]) {
+        throw new Error(response.data["message"] ?? response.data);
+      }
+    } else {
+      await updateDoc(
+        doc(getFirestore(firebaseApp), 'groups', groupId, 'posts', postId),
+        updatedData
+      );
+    }
   };
 
   return {

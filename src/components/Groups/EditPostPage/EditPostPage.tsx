@@ -2,13 +2,13 @@ import { Timestamp } from 'firebase/firestore';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Link, navigate } from 'gatsby';
 import * as React from 'react';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import Flatpickr from 'react-flatpickr';
 import { useNotificationSystem } from '../../../context/NotificationSystemContext';
+import { useUserPermissions } from '../../../context/UserDataContext/UserPermissionsContext';
 import { useActiveGroup } from '../../../hooks/groups/useActiveGroup';
 import { usePost } from '../../../hooks/groups/usePost';
 import { usePostActions } from '../../../hooks/groups/usePostActions';
-import { useFirebaseApp } from '../../../hooks/useFirebase';
 import { PostData } from '../../../models/groups/posts';
 import Layout from '../../layout';
 import SEO from '../../seo';
@@ -32,15 +32,32 @@ export default function EditPostPage(props) {
     null
   );
   const { updatePost, deletePost } = usePostActions(groupId);
-  const firebaseApp = useFirebaseApp();
   const notifications = useNotificationSystem();
+  const permissions = useUserPermissions();
+  const [isMdx, setIsMdx] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   React.useEffect(() => {
     // we need to check for timestamp -- ServerValue is null initially
     if (!post && originalPost && originalPost.timestamp) {
       editPost(originalPost);
+      setIsMdx(originalPost.isMdx ?? false);
     }
   }, [originalPost, post]);
+
+  const handleUpdatePost = () => {
+    setIsSaving(true);
+    const updates = {...post};
+    delete updates.mdxBody;
+    if (updates.mdxSource == originalPost.mdxSource && updates.isMdx == originalPost.isMdx) {
+      delete updates.mdxSource;
+      delete originalPost.isMdx;
+    }
+    updatePost(post.id, updates)
+      .then(() => navigate(-1))
+      .catch(e => alert("Error: " + e.message))
+      .finally(() => setIsSaving(false));
+  };
 
   if (!post) {
     const postNotFound = !activeGroup.isLoading && !originalPost;
@@ -81,10 +98,11 @@ export default function EditPostPage(props) {
             </Link>
             <button
               type="submit"
-              onClick={() => updatePost(post.id, post).then(() => navigate(-1))}
+              disabled={isSaving}
+              onClick={handleUpdatePost}
               className="btn"
             >
-              Save
+              {isSaving ? 'Saving...' : 'Save'}
             </button>
           </div>
         </div>
@@ -188,10 +206,28 @@ export default function EditPostPage(props) {
                   Post Content
                 </label>
                 <div className="mt-1">
-                  <MarkdownEditor
-                    value={post.body}
-                    onChange={value => editPost({ body: value })}
-                  />
+                  {permissions.canCreateMdxPosts && (
+                    <button
+                      onClick={() => setIsMdx(!isMdx)}
+                      className="btn my-2"
+                    >
+                      Switch to {isMdx ? 'Markdown' : 'MDX'}
+                    </button>
+                  )}
+                  {permissions.canCreateMdxPosts && isMdx ? (
+                    <textarea
+                      className="textarea"
+                      value={post.xdmSource}
+                      rows={4}
+                      placeholder="Copy-paste MDX source from https://usaco.guide/editor"
+                      onChange={e => editPost({ xdmSource: e.target.value })}
+                    />
+                  ) : (
+                    <MarkdownEditor
+                      value={post.body}
+                      onChange={value => editPost({ body: value })}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -216,12 +252,11 @@ export default function EditPostPage(props) {
               </button>
               <button
                 type="button"
-                onClick={() =>
-                  updatePost(post.id, post).then(() => navigate(-1))
-                }
+                disabled={isSaving}
+                onClick={handleUpdatePost}
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-dark-surface focus:ring-blue-500"
               >
-                Save
+                {isSaving ? 'Saving...' : 'Save'}
               </button>
             </div>
           </div>

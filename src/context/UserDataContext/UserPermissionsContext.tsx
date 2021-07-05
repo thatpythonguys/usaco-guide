@@ -2,7 +2,7 @@ import * as React from 'react';
 import UserDataContext from './UserDataContext';
 
 // the value is the firebase claim name
-export type UserPermissions = 'isAdmin' | 'canModerate' | 'canCreateGroups';
+export type UserPermissions = 'isAdmin' | 'canModerate' | 'canCreateGroups' | 'canCreateMdxPosts';
 
 export const UserPermissionInformation: {
   [key in UserPermissions]: { label: string; description: string };
@@ -21,6 +21,10 @@ export const UserPermissionInformation: {
     label: 'Can Create Groups',
     description: 'Users with this permission can create Groups.',
   },
+  canCreateMdxPosts: {
+    label: 'Can Create MDX Posts (Groups)',
+    description: 'Users with this permission can use MDX in Groups. WARNING: only grant this to trusted people. Granting this permission enables the user to conduct cross-site scripting attacks.',
+  },
 };
 
 const UserPermissionsContext = React.createContext<{
@@ -32,6 +36,7 @@ export const UserPermissionsContextProvider = ({ children }) => {
     isAdmin: false,
     canModerate: false,
     canCreateGroups: false,
+    canCreateMdxPosts: false,
   };
 
   const [permissions, setPermissions] = React.useState<
@@ -47,6 +52,7 @@ export const UserPermissionsContextProvider = ({ children }) => {
             isAdmin: !!claims.isAdmin,
             canModerate: !!claims.canModerate,
             canCreateGroups: !!claims.canCreateGroups,
+            canCreateMdxPosts: !!claims.canCreateMdxPosts,
           });
         }
       );

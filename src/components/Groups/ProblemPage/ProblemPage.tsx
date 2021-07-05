@@ -118,7 +118,7 @@ export default function ProblemPage(props) {
                 <ProblemSidebar post={post} problem={problem} />
               </aside>
               <div className="py-6 xl:pt-8 xl:pb-12">
-                <SafeMarkdownRenderer>{problem.body}</SafeMarkdownRenderer>
+                <SafeMarkdownRenderer md={problem.body} mdx={problem.xdmBody} />
 
                 {problem.hints.length > 0 && (
                   <>
@@ -131,9 +131,7 @@ export default function ProblemPage(props) {
                           key={hint.id}
                         >
                           <div className="pb-4">
-                            <SafeMarkdownRenderer>
-                              {hint.body}
-                            </SafeMarkdownRenderer>
+                            <SafeMarkdownRenderer md={hint.body} />
                           </div>
                         </Spoiler>
                       ))}
@@ -163,9 +161,7 @@ export default function ProblemPage(props) {
                           Date.now()) ? (
                         <Spoiler title={'Show Solution'}>
                           <div className="pb-4">
-                            <SafeMarkdownRenderer>
-                              {problem.solution}
-                            </SafeMarkdownRenderer>
+                            <SafeMarkdownRenderer md={problem.solution} />
                           </div>
                         </Spoiler>
                       ) : (
