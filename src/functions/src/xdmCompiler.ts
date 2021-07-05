@@ -1,4 +1,4 @@
-import { xdm } from "../../gatsby/xdm.js";
+import { xdm } from '../../gatsby/xdm.js';
 import rehypeRaw from 'rehype-raw';
 import remarkAutolinkHeadings from 'remark-autolink-headings';
 import remarkExternalLinks from 'remark-external-links';
@@ -11,51 +11,53 @@ import customRehypeKatex from '../../mdx-plugins/rehype-math';
 import rehypeSnippets from '../../mdx-plugins/rehype-snippets';
 
 export async function compileXdm(source: String) {
-  let result = await xdm.compile(source.replace(/<!--/g, '{/* ').replace(/-->/g, '*/}'), {
-    remarkPlugins: [
-      gfm,
-      remarkMath,
-      remarkFrontmatter,
-      remarkMdxFrontmatter,
-      remarkExternalLinks,
-      remarkSlug,
-      [
-        remarkAutolinkHeadings,
-        {
-          linkProperties: {
-            ariaHidden: 'true',
-            tabIndex: -1,
-            className: 'anchor before',
+  let result = await xdm.compile(
+    source.replace(/<!--/g, '{/* ').replace(/-->/g, '*/}'),
+    {
+      remarkPlugins: [
+        gfm,
+        remarkMath,
+        remarkFrontmatter,
+        remarkMdxFrontmatter,
+        remarkExternalLinks,
+        remarkSlug,
+        [
+          remarkAutolinkHeadings,
+          {
+            linkProperties: {
+              ariaHidden: 'true',
+              tabIndex: -1,
+              className: 'anchor before',
+            },
+            content: {
+              type: 'mdxJsxFlowElement',
+              name: 'HeaderLink',
+            },
           },
-          content: {
-            type: 'mdxJsxFlowElement',
-            name: 'HeaderLink',
+        ],
+      ],
+      rehypePlugins: [
+        [
+          rehypeRaw,
+          {
+            passThrough: [
+              'mdxjsEsm',
+              'mdxFlowExpression',
+              'mdxTextExpression',
+              'mdxJsxFlowElement',
+              'mdxJsxTextElement',
+            ],
           },
-        },
+        ],
+        customRehypeKatex,
+        rehypeSnippets,
       ],
-    ],
-    rehypePlugins: [
-      [
-        rehypeRaw,
-        {
-          passThrough: [
-            'mdxjsEsm',
-            'mdxFlowExpression',
-            'mdxTextExpression',
-            'mdxJsxFlowElement',
-            'mdxJsxTextElement',
-          ],
-        },
-      ],
-      customRehypeKatex,
-      rehypeSnippets,
-    ],
-    outputFormat: 'function-body',
-  });
+      outputFormat: 'function-body',
+    }
+  );
   const compiledResult = String(result);
   return compiledResult;
 }
-
 
 // const test = `
 

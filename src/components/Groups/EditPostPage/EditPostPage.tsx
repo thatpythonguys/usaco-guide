@@ -47,15 +47,18 @@ export default function EditPostPage(props) {
 
   const handleUpdatePost = () => {
     setIsSaving(true);
-    const updates = {...post};
+    const updates = { ...post };
     delete updates.mdxBody;
-    if (updates.mdxSource == originalPost.mdxSource && updates.isMdx == originalPost.isMdx) {
+    if (
+      updates.mdxSource == originalPost.mdxSource &&
+      updates.isMdx == originalPost.isMdx
+    ) {
       delete updates.mdxSource;
       delete originalPost.isMdx;
     }
     updatePost(post.id, updates)
       .then(() => navigate(-1))
-      .catch(e => alert("Error: " + e.message))
+      .catch(e => alert('Error: ' + e.message))
       .finally(() => setIsSaving(false));
   };
 

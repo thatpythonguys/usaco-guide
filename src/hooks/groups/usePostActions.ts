@@ -23,8 +23,9 @@ import { useFirebaseApp } from '../useFirebase';
 
 export function usePostActions(groupId: string) {
   const firebaseApp = useFirebaseApp();
-  const { firebaseUser, setUserProgressOnProblems } =
-    useContext(UserDataContext);
+  const { firebaseUser, setUserProgressOnProblems } = useContext(
+    UserDataContext
+  );
 
   const updatePost = async (postId: string, updatedData: Partial<PostData>) => {
     if (updatedData.isMdx) {
@@ -34,10 +35,10 @@ export function usePostActions(groupId: string) {
       )({
         groupId,
         postId,
-        updatedData
+        updatedData,
       });
-      if (!response.data["success"]) {
-        throw new Error(response.data["message"] ?? response.data);
+      if (!response.data['success']) {
+        throw new Error(response.data['message'] ?? response.data);
       }
     } else {
       await updateDoc(

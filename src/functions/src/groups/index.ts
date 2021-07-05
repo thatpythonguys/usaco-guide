@@ -5,7 +5,7 @@ import leave from './leave';
 import removeMember from './removeMember';
 import submitToProblem from './submitToProblem';
 import updateMemberPermissions from './updateMemberPermissions';
-import updateGroupMdxDocument from "./updateGroupMdxDocument";
+import updateGroupMdxDocument from './updateGroupMdxDocument';
 
 export {
   getJoinKeyInfo,

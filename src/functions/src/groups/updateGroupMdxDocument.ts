@@ -17,9 +17,12 @@ if (admin.apps.length === 0) {
 let compileXdm = null;
 
 export default functions.https.onCall(
-  async ({ groupId, postId, problemId, updatedData }: updateGroupMdxDocumentArgs, context) => {
+  async (
+    { groupId, postId, problemId, updatedData }: updateGroupMdxDocumentArgs,
+    context
+  ) => {
     if (compileXdm === null) {
-      compileXdm = await require("../xdmCompiler").compileXdm;
+      compileXdm = await require('../xdmCompiler').compileXdm;
     }
     const callerUid = context.auth?.uid;
     const canCreateMdxPosts = context.auth?.token?.canCreateMdxPosts;
@@ -27,7 +30,7 @@ export default functions.https.onCall(
     if (!canCreateMdxPosts) {
       return {
         success: false,
-        errorCode: "NOT_AUTHORIZED_MDX",
+        errorCode: 'NOT_AUTHORIZED_MDX',
         message: "You aren't authorized to create MDX posts.",
       };
     }
@@ -63,7 +66,7 @@ export default functions.https.onCall(
         return {
           succes: false,
           errorCode: 'FAILED_TO_COMPILE',
-          message: "Failed to compile MDX.",
+          message: 'Failed to compile MDX.',
         };
       }
     }
@@ -75,7 +78,7 @@ export default functions.https.onCall(
       .collection('posts')
       .doc(postId)
       .update(updatedData);
-    
+
     return { success: true };
   }
 );
