@@ -23,7 +23,7 @@ export const FirebaseProvider = ({ children }) => {
         getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
       setFirebaseApp(firebaseApp);
 
-      const shouldUseEmulator = true;
+      const shouldUseEmulator = false;
       if (shouldUseEmulator) {
         useFunctionsEmulator(getFunctions(firebaseApp), 'localhost', 5001);
       }

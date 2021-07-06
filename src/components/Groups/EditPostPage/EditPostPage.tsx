@@ -34,14 +34,12 @@ export default function EditPostPage(props) {
   const { updatePost, deletePost } = usePostActions(groupId);
   const notifications = useNotificationSystem();
   const permissions = useUserPermissions();
-  const [isMdx, setIsMdx] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   React.useEffect(() => {
     // we need to check for timestamp -- ServerValue is null initially
     if (!post && originalPost && originalPost.timestamp) {
       editPost(originalPost);
-      setIsMdx(originalPost.isMdx ?? false);
     }
   }, [originalPost, post]);
 
@@ -211,19 +209,19 @@ export default function EditPostPage(props) {
                 <div className="mt-1">
                   {permissions.canCreateMdxPosts && (
                     <button
-                      onClick={() => setIsMdx(!isMdx)}
+                      onClick={() => editPost({ isMdx: !post.isMdx })}
                       className="btn my-2"
                     >
-                      Switch to {isMdx ? 'Markdown' : 'MDX'}
+                      Switch to {post.isMdx ? 'Markdown' : 'MDX'}
                     </button>
                   )}
-                  {permissions.canCreateMdxPosts && isMdx ? (
+                  {post.isMdx ? (
                     <textarea
                       className="textarea"
-                      value={post.xdmSource}
+                      value={post.mdxSource}
                       rows={4}
                       placeholder="Copy-paste MDX source from https://usaco.guide/editor"
-                      onChange={e => editPost({ xdmSource: e.target.value })}
+                      onChange={e => editPost({ mdxSource: e.target.value })}
                     />
                   ) : (
                     <MarkdownEditor

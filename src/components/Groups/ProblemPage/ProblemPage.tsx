@@ -118,7 +118,7 @@ export default function ProblemPage(props) {
                 <ProblemSidebar post={post} problem={problem} />
               </aside>
               <div className="py-6 xl:pt-8 xl:pb-12">
-                <SafeMarkdownRenderer md={problem.body} mdx={problem.xdmBody} />
+                <SafeMarkdownRenderer md={problem.body} mdx={problem.mdxBody} />
 
                 {problem.hints.length > 0 && (
                   <>

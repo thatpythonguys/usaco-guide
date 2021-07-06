@@ -31,7 +31,7 @@ export function usePostActions(groupId: string) {
     if (updatedData.isMdx) {
       const response = await httpsCallable(
         getFunctions(firebaseApp),
-        'updateGroupMdxDocument'
+        'groups-updateGroupMdxDocument'
       )({
         groupId,
         postId,
