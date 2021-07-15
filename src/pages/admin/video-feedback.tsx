@@ -56,8 +56,8 @@ export default function VideoFeedbackPage(): ReactElement {
               }
               return [
                 sum +
-                ['very bad', 'bad', 'good', 'great'].indexOf(c.rating) +
-                1,
+                  ['very bad', 'bad', 'good', 'great'].indexOf(c.rating) +
+                  1,
                 num + 1,
               ];
             },
