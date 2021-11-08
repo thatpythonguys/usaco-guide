@@ -130,6 +130,8 @@
     "blob-polyfill": "^5.0.20210201",
     "bundlewatch": "^0.3.2",
     "chromatic": "^5.9.2",
+    "concurrently": "^6.3.0",
+    "cross-env": "^7.0.3",
     "eslint-plugin-jest": "^24.4.0",
     "firebase-admin": "^9.11.1",
     "firestore-export-import": "^0.17.0",
@@ -148,6 +150,8 @@
   "scripts": {
     "build": "cp ./content/problems.schema.json ./static/problems.schema.json && gatsby build",
     "develop": "gatsby develop",
+    "develop:css": "cross-env TAILWIND_MODE=watch postcss src/styles/main.css -o build.css --watch",
+    "develop:fast": "concurrently --kill-others \"npm run develop\" \"npm run develop:css\"",
     "format": "prettier --write .",
     "lint": "npm run eslint",
     "eslint": "eslint --fix --ext .jsx --ext .js --ext .ts --ext .tsx --cache src",

@@ -1,24 +1,28 @@
 import { PageProps } from 'gatsby';
 import * as React from 'react';
 import {
+  Configure,
   connectHits,
   connectRefinementList,
   connectSearchBox,
+  connectStateResults,
   InstantSearch,
   PoweredBy,
 } from 'react-instantsearch-dom';
 import Layout from '../components/layout';
+import CopyURLs from '../components/ProblemsPage/CopyURLs';
+import Difficulty from '../components/ProblemsPage/Difficulty';
+import ExcludeURLs from '../components/ProblemsPage/ExcludeURLs';
+import Modules from '../components/ProblemsPage/Module';
 import ProblemHits from '../components/ProblemsPage/ProblemHits';
 import RefinementList from '../components/ProblemsPage/RefinementList';
 import SearchBox from '../components/ProblemsPage/SearchBox';
-import Difficulty from '../components/ProblemsPage/Difficulty';
+import Section from '../components/ProblemsPage/Section';
 import Starred from '../components/ProblemsPage/Starred';
+import Status from '../components/ProblemsPage/Status';
 import SEO from '../components/seo';
 import TopNavigationBar from '../components/TopNavigationBar/TopNavigationBar';
 import { searchClient } from '../utils/algoliaSearchClient';
-import Section from '../components/ProblemsPage/Section';
-import Status from '../components/ProblemsPage/Status';
-import Modules from '../components/ProblemsPage/Module';
 
 const indexName =
   process.env.NODE_ENV === 'production' ? 'prod_problems' : 'dev_problems';
@@ -28,9 +32,11 @@ const CustomDifficultySelection = connectRefinementList(Difficulty);
 const CustomStarredSelection = connectRefinementList(Starred);
 const CustomSectionSelection = connectRefinementList(Section);
 const CustomStatusSelection = connectRefinementList(Status);
+const CustomExcludeURLs = connectRefinementList(ExcludeURLs);
 const CustomSearchBox = connectSearchBox(SearchBox);
 const CustomHits = connectHits(ProblemHits);
 const CustomRefinementList = connectRefinementList(RefinementList);
+const CustomCopyURLs = connectStateResults(CopyURLs);
 
 export default function ProblemsPage(props: PageProps) {
   return (
@@ -41,6 +47,7 @@ export default function ProblemsPage(props: PageProps) {
         <TopNavigationBar />
 
         <InstantSearch searchClient={searchClient} indexName={indexName}>
+          <Configure hitsPerPage={100} />
           <div className="py-16 bg-blue-600 dark:bg-blue-900 px-5">
             <div className="max-w-3xl mx-auto mb-6">
               <h1 className="text-center text-3xl sm:text-5xl font-bold text-white dark:text-dark-high-emphasis mb-6">
@@ -92,6 +99,14 @@ export default function ProblemsPage(props: PageProps) {
                     limit={500}
                     searchable
                   />
+                </div>
+                <div className="flex space-x-4 items-center col-span-2">
+                  <CustomExcludeURLs
+                    attribute="url"
+                    operator="and"
+                    limit={500}
+                  />
+                  <CustomCopyURLs />
                 </div>
               </div>
               <CustomHits />

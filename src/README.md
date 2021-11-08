@@ -23,4 +23,6 @@ reason).
    (or the equivalent on your platform)
 3. Run `gatsby develop`
 
+You can combine #2 and #3 with `yarn develop:fast`
+
 I get a consistent 1s hot reload with this
