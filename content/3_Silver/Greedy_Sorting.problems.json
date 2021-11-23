@@ -118,6 +118,18 @@
   ],
   "other": [
     {
+      "uniqueId": "usaco-835",
+      "name": "Lemonade Line",
+      "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=835",
+      "source": "Silver",
+      "difficulty": "Very Easy",
+      "isStarred": false,
+      "tags": ["Greedy", "Sorting"],
+      "solutionMetadata": {
+        "kind": "internal"
+      }
+    },
+    {
       "uniqueId": "cf-762B",
       "name": "USB vs. PS/2",
       "url": "https://codeforces.com/contest/762/problem/B",
@@ -130,18 +142,6 @@
       }
     },
     {
-      "uniqueId": "usaco-835",
-      "name": "Lemonade Line",
-      "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=835",
-      "source": "Silver",
-      "difficulty": "Easy",
-      "isStarred": false,
-      "tags": ["Greedy", "Sorting"],
-      "solutionMetadata": {
-        "kind": "internal"
-      }
-    },
-    {
       "uniqueId": "usaco-571",
       "name": "High Card Wins",
       "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=571",
@@ -149,6 +149,18 @@
       "difficulty": "Easy",
       "isStarred": false,
       "tags": ["Greedy", "Sorting", "Ordered Set"],
+      "solutionMetadata": {
+        "kind": "internal"
+      }
+    },
+    {
+      "uniqueId": "usaco-1111",
+      "name": "Year of the Cow",
+      "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=1111",
+      "source": "Silver",
+      "difficulty": "Easy",
+      "isStarred": false,
+      "tags": ["Greedy", "Sorting"],
       "solutionMetadata": {
         "kind": "internal"
       }
