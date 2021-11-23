@@ -268,18 +268,6 @@
       }
     },
     {
-      "uniqueId": "usaco-1111",
-      "name": "Year of the Cow",
-      "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=1111",
-      "source": "Silver",
-      "difficulty": "Normal",
-      "isStarred": false,
-      "tags": ["Sorting", "Greedy"],
-      "solutionMetadata": {
-        "kind": "internal"
-      }
-    },
-    {
       "uniqueId": "usaco-1112",
       "name": "Just Green Enough",
       "url": "http://www.usaco.org/index.php?page=viewproblem2&cpid=1112",
